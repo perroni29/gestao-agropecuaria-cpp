@@ -7,7 +7,7 @@
 #include <stdexcept> // Para std::stod e exceções
 #include <iomanip> // Para formatação da saída
 #include <cctype> // Para std::isspace, std::tolower
-#include "databasemanager.h"
+#include "fazenda.h"
 #include "sqlite3.h"
 
 // --- Função Auxiliar para Conversão ---
