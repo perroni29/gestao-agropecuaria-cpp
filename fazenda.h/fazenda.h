@@ -1,25 +1,47 @@
-#ifndef FAZENDA_H
-#define FAZENDA_H
+#ifndef DATABASEMANAGER_H
+#define DATABASEMANAGER_H
 
 #include <iostream>
+#include <vector>
 #include <string>
-#include <sqlite3.h> // Biblioteca para persistência em banco de dados
+#include <sqlite3.h>
 
 using namespace std;
 
-// Estrutura para representar os dados do animal
+// Estrutura para a lista geral de animais
 struct Animal {
     int id;
     string nome;
-    string tipo;           // Ex: Bovino ou Suíno
-    double peso_inicial;   
-    double consumo_total;  // Soma da ração consumida
+    string tipo;
 };
 
-// Protótipos das funções do sistema
-void inicializarBanco(sqlite3* &db);
-void cadastrarAnimal(sqlite3* db);
-void gerarRelatorioConversao(sqlite3* db);
-bool validarNome(string nome); 
+// Estrutura para o relatório de peso
+struct RegistroPeso {
+    string data;
+    double peso;
+};
+
+// Estrutura para o relatório de consumo
+struct RegistroAlimentacao {
+    string data;
+    double alimentacao;
+};
+
+class DatabaseManager {
+private:
+    sqlite3* db;
+
+public:
+    DatabaseManager(string nomeBanco);
+    ~DatabaseManager();
+
+    // Métodos solicitados pelo seu novo main.cpp
+    string cadastrarAnimal(string nome, string tipo);
+    bool registrarDadosDiarios(int id, double peso, double alimentacao);
+    vector<Animal> listarAnimais();
+    vector<RegistroPeso> getEvolucaoPeso(int id);
+    vector<RegistroAlimentacao> getRegistrosUltimoMes(int id);
+    bool excluirAnimal(int id);
+};
 
 #endif
